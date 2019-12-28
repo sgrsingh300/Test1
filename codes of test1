@@ -1,0 +1,65 @@
+1)
+select last_name,floor(months_between(sysdate,hire_date)/12) as years,
+floor(mod(months_between(sysdate,hire_date),12)) as months from employees
+order by years desc; 
+
+
+
+
+2)
+select d.DEPARTMENT_ID,d.DEPARTMENT_NAME,d.LOCATION_ID,count(e.EMPLOYEE_ID) 
+from DEPARTMENTS d left join EMPLOYEES e on d.department_id=e.department_id
+group by d.DEPARTMENT_ID,d.DEPARTMENT_NAME,d.LOCATION_ID;
+
+
+
+
+3)
+select last_name,hire_date from EMPLOYEES where extract(day from HIRE_DATE)<16;
+
+
+
+4)
+select last_name,salary,floor(salary/1000) as thousands from EMPLOYEES;
+
+
+
+5)
+select * from EMPLOYEES where SALARY>(select MAX(salary) from EMPLOYEES 
+where department_id=60);
+
+
+
+
+6)
+DEFINE deptid=&id;
+DECLARE
+v_count NUMBER(10):=0;
+BEGIN
+select count(employee_id) into v_count
+from EMPLOYEES 
+where DEPARTMENT_ID=&deptid;
+DBMS_OUTPUT.PUT_LINE(v_count||' employee(s) works in department '||&deptid);
+END;
+/
+
+
+
+7)
+set SERVEROUTPUT ON
+
+DECLARE
+year NUMBER := &year; 
+BEGIN
+IF MOD(year, 4)=0 
+	AND
+	MOD(year, 100)!=0  
+	OR
+	MOD(year, 400)=0 THEN
+	dbms_output.Put_line(year	|| ' is a leap year '); 
+ELSE
+	dbms_output.Put_line(year	|| ' is not a leap year.'); 
+END IF; 
+END; 
+
+
